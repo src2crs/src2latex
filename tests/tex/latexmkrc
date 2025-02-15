@@ -1,0 +1,20 @@
+my $cwd = getcwd();
+
+$out_dir = "$cwd/build";
+$pdflatex = 'lualatex -interaction=nonstopmode';
+$pdf_mode = 1;
+$do_cd = 0;
+$clean_ext = 'snm nav synctex.gz';
+
+ensure_path( 'TEXINPUTS', '../../texsrc/sty' );
+
+@default_files = (
+    "src2listing.tex",
+);
+
+# Create the output directory and put a .gitignore file in it
+if (! -d $out_dir) {
+    mkdir $out_dir;
+}
+open my $gitignore, '>', "$out_dir/.gitignore";
+print $gitignore "*\n";

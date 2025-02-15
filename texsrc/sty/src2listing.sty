@@ -1,0 +1,89 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesExplPackage {src2listing} {2025/02/16} {0.1.0} {Src2Crs Listings}
+
+%%%%%%%%%%%%%%%%%%%%
+%%% Dependencies %%%
+%%%%%%%%%%%%%%%%%%%%
+
+% For typesetting listings
+\RequirePackage{tcolorbox}
+\tcbuselibrary{skins}
+\tcbuselibrary{listingsutf8}
+\RequirePackage{bold-extra}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%%% Package Options %%%
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\ExplSyntaxOn
+\keys_define:nn { src2listing }{%
+  lang .tl_set:N = \src@listing@lang,
+}
+
+% Set some defaults.
+\keys_set:nn { src2listing } {%
+  lang = go,
+}
+\ExplSyntaxOff
+\ProcessKeyOptions
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Definitions for Listings %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Common style for listings.
+\lstdefinestyle{src@listing@lststyle@common}{%
+    language={\src@listing@lang},
+    basicstyle=\ttfamily\small,
+    numberstyle=\tiny,
+    numbers=left,
+    stepnumber=1,
+    numbersep=8pt,
+    showstringspaces=false,
+    aboveskip=-2mm,
+    belowskip=-2mm,
+    tabsize=2,
+}
+
+% Common style for tcolorboxes containing listings.
+\tcbset{src@listing@tcbstyle@common/.style={%
+    enhanced,
+    sharp corners,
+    colback=black!10!white,
+    colframe=black!10!white,
+    boxrule=5pt,titlerule=5pt,
+    coltitle=black!80!black,
+    colbacktitle=black!20!white, enhanced,
+}}
+
+% Inserts a listing from a file.
+% #1: extra options for tcolorbox
+% #2: listing file
+% #3: title
+% #4: line range
+% #5: extra listing options
+\NewTCBInputListing{\inputcodeblock}{ O{} m o D<>{0-1000} O{} }{%
+    src@listing@tcbstyle@common,
+    listing only,
+    listing options={style={src@listing@lststyle@common}, linerange=#4, #5},
+    listing file={#2},
+    IfValueT={#3}{title={\large{\textbf{#3}}}},
+    #1,
+}
+
+\endinput
+
+%%%%%%%%%%%%%%
+%%% Notes: %%%
+%%%%%%%%%%%%%%
+%
+% This package uses the @-notation for internal variables
+% instead of the more modern latex3 conventions (e.g. \l_...).
+% The reason is that the listings package doesn't seem to work
+% with the newer conventions.
+% Probably, variables have to be expanded before they are passed
+% to the listings package. As I don't know how to do that right now
+% and there seems to be no need for it, I'll stick with the @-notation
+% for now. Other packages (e.g. src2report) will use the newer conventions
+% and rely on this package to do handle listings
+%

@@ -25,3 +25,7 @@ use this crate to access the documents.
 Other ways of publishing the files, like similar mechanisms
 for other languages or even directly to CTAN, may be considered
 later, but are out of scope for the moment.
+
+## Content
+
+For a more detailed content overview, see the [README.md](texsrc/sty/README.md) in the `texsrc` directory.

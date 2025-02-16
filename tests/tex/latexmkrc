@@ -9,6 +9,7 @@ $clean_ext = 'snm nav synctex.gz';
 ensure_path( 'TEXINPUTS', '../../texsrc/sty' );
 
 @default_files = (
+    "src2report.tex",
     "src2listing.tex",
 );
 

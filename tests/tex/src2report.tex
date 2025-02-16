@@ -1,0 +1,51 @@
+\documentclass[twoside]{scrartcl}
+
+% Setup pages
+\usepackage[a4paper, landscape]{geometry}
+\geometry{top=2cm, bottom=1cm, left=1cm, right=1cm}
+
+\usepackage
+[
+    % base directory containing the submission directory
+    %basedir=..,
+    basedir = ../../testdata/go/exam,
+%
+    % language settings
+    % - title and submission subdirectory name
+    % - meta key 'lang' sets defaults, others override them 
+    %lang=en,
+    %title=Exam Report,
+    %submissiondirname=submissions,
+%
+    % source language settings
+    % - syntax highlighting and file extensions
+    % - meta key 'srclang' sets defaults, others override them
+    %srclang=go,
+    %lstlang=go,
+    %srcext=go,
+]
+{src2report}
+
+\begin{document}
+
+%%% Define the actual student reports here. %%%
+
+\begin{studentreport}[ID: 12345]{alice}
+    \addtasksubmission{task_1}
+    \addtasksubmission{task_2}
+    \addtasksubmission[Aufgabe 3]{task_3}
+\end{studentreport}
+
+\begin{studentreport}{bob}
+    \addtasksubmission[Task\_1]{task_1}
+    \addtasksubmission{task_2}
+    \addtasksubmission[Aufgabe 3]{task_3}
+\end{studentreport}
+
+\begin{studentreport}[Charlie]{charlie}
+    \addtasksubmission[Custom Task Name For 1]{task_1}
+    \addtasksubmission{task_2}
+    \addtasksubmission[Aufgabe 3]{task_3}
+\end{studentreport}
+
+\end{document}

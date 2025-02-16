@@ -1,0 +1,97 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesExplPackage {src2report} {2025/02/16} {0.1.0} {Src2Crs Exam Reports}
+
+%%%%%%%%%%%%%%%%%%%%
+%%% Dependencies %%%
+%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{multicol}
+\RequirePackage[headsepline]{scrlayer-scrpage}
+\pagestyle{scrheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%%% Package Options %%%
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\keys_define:nn { src2report }{
+  %% language options %%
+  lang .choice:,
+  lang / de .meta:n = { title = Prüfungsbericht, submissiondirname = abgaben, },
+  lang / en .meta:n = { title = Exam\ Report, submissiondirname = submissions, },
+  
+  %% options for syntax highlighting and file extensions %% 
+  srclang .meta:n = { lstlang = #1, srcext = #1, },
+  srcext .tl_set:N = \l_report_srcfileext,
+  lstlang .tl_set:N = \l_report_lstlang,
+
+  %% directory options %%
+  basedir .tl_set:N = \l_report_base@dir,
+  submissiondirname .tl_set:N = \l_report_submission@dirname,
+  
+  %% misc. options (mainly for overriding defaults) %%
+  title .tl_set:N = \l_report_exam@title,
+}
+
+% Set some defaults.
+\keys_set:nn { src2report } { 
+  lang = en,
+  basedir = ..,
+  srclang = go,
+}
+\ProcessKeyOptions
+
+% Load the listings package and choose the language
+% based on the lstlang package option.
+\RequirePackage[lang = \l_report_lstlang]{src2listing}
+
+\edef\l_report_submission@dir{\l_report_base@dir/\l_report_submission@dirname}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Actual Typesetting Commands. %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Environment for a student's submissions.
+%
+% #1: The student's name, id or other identifier.
+%     Defaults to the pretty printed directory name.
+% #2: The student directory name (subdirectory of submission directory).
+\NewDocumentEnvironment{studentreport}{ O{#2} m }{%
+\edef\l_report_current@student@dir{#2}
+  \ihead{\textbf{\l_report_exam@title}}
+  \ohead{\textbf{#1}}
+  \begin{multicols}{2}
+}{
+  \end{multicols}
+  \cleardoublepage
+}
+
+% Add a submission for a task.
+%
+% #1: A name for the submission (default: pretty printed task directory)
+% #2: The student directory (default: current student dir).
+% #3: The task directory (subdir of student directory).
+% #4: The file to include (default: <task dir>.<lang>)
+\NewDocumentCommand{\addtasksubmission}{O{\l_report_prettydir{#3}} O{\l_report_current@student@dir} m O{#3.\l_report_srcfileext}}{%
+  \inputcodeblock{\l_report_submission@dir/#2/#3/#4}[#1]
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%%% Helper Commands %%%
+%%%%%%%%%%%%%%%%%%%%%%%
+
+% Creates a pretty version of a directory name by replacing underscores with spaces
+% and capitalizing the first letter.
+%
+% #1: The directory name.
+\NewDocumentCommand{\l_report_prettydir}{m}{%
+  \text_titlecase:n{\l_report_replace@underscores{#1}}
+}
+
+% Replaces all underscores in a string with spaces.
+%
+% #1: The string to process.
+\NewDocumentCommand{\l_report_replace@underscores}{m}{%
+  \tl_set:Nn \l_tmp_word {#1}
+  \regex_replace_all:nnN { _ } { \ } \l_tmp_word
+  \tl_use:N \l_tmp_word
+}

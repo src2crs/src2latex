@@ -63,8 +63,8 @@ impl Document {
 mod tests {
     use super::Document;
 
-    macro_rules! test_doc {
-        ($name:ident) => {
+    macro_rules! test_examples {
+        ($($name:ident),+ $(,)?) => {$(
             #[test]
             fn $name() {
                 // Create a temporary directory and file path.
@@ -84,16 +84,18 @@ mod tests {
                     include_str!(concat!(stringify!($name), ".tex"))
                 );
             }
-        };
+        )+};
     }
 
-    test_doc!(article);
-    test_doc!(scrartcl);
-    test_doc!(report);
-    test_doc!(scrrprt);
-    test_doc!(book);
-    test_doc!(scrbook);
-    test_doc!(scrartcl_with_src2listings);
-    test_doc!(scrartcl_with_src2report);
-    test_doc!(scrartcl_with_src2report_and_a4paper);
+    test_examples!(
+        article,
+        scrartcl,
+        report,
+        scrrprt,
+        book,
+        scrbook,
+        scrartcl_with_src2listings,
+        scrartcl_with_src2report,
+        scrartcl_with_src2report_and_a4paper
+    );
 }

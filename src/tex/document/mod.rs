@@ -38,14 +38,9 @@ impl Document {
 
 /// Methods for exporting the document.
 impl Document {
-    /// Return the source code of the document.
-    pub fn to_string(&self) -> String {
-        [self.preamble(), self.body()].join("\n\n")
-    }
-
     /// Write the document to a file.
     pub fn write_to_file<P: AsRef<Path>>(&self, path: P) -> std::io::Result<()> {
-        std::fs::write(path.as_ref(), format!("{}\n", self.to_string()))
+        std::fs::write(path.as_ref(), format!("{}\n", self))
     }
 }
 
@@ -73,5 +68,11 @@ impl Document {
     /// Get the body of the document as a string.
     pub fn body(&self) -> String {
         ["\\begin{document}", "\\end{document}"].join("\n")
+    }
+}
+
+impl std::fmt::Display for Document {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", [self.preamble(), self.body()].join("\n\n"))
     }
 }

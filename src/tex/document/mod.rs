@@ -13,7 +13,7 @@ pub struct Document {
 /// Constructors and modifiers.
 impl Document {
     /// Create a new `Document` with the given class.
-    pub fn new(cls: String) -> Self {
+    pub fn new<C: Into<String>>(cls: C) -> Self {
         Self {
             class: DocumentClass::new(cls),
             packages: Vec::new(),

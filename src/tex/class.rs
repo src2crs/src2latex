@@ -6,8 +6,8 @@ pub struct DocumentClass {
 
 impl DocumentClass {
     /// Create a new `Class` with the given name.
-    pub fn new(name: String) -> Self {
-        Self { name }
+    pub fn new<N: Into<String>>(name: N) -> Self {
+        Self { name: name.into() }
     }
 }
 

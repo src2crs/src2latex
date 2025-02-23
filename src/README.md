@@ -18,11 +18,9 @@ developed in this repository available to Rust projects.
     directories and only the final PDFs are produced as artifacts.
 * Based on Rust based LaTeX generation and compilation, add a cli tool for generating
   LaTeX document templates for Src2LaTeX packages.
+  * Also allow setting options via the cli tool?
 * Auto generate examples via Rust or cli.
   * The existing examples in `tests/tex` should be kept (see note below).
-* Allow selecting package options via a builder pattern.
-  * E.g. `LatexPackage::new().with_key_1().with_option_2()`.
-  * Also allow setting options via the cli tool?
 
 ## Notes
 

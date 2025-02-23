@@ -3,12 +3,11 @@ mod examples;
 use itertools::Itertools;
 use std::path::Path;
 
-use super::class::DocumentClass;
-
+use super::{DocumentClass, Package};
 /// A LaTeX Document.
 pub struct Document {
     class: DocumentClass,
-    packages: Vec<String>,
+    packages: Vec<Package>,
 }
 
 /// Constructors and modifiers.
@@ -21,8 +20,8 @@ impl Document {
         }
     }
 
-    pub fn with_package<P: AsRef<str>>(mut self, package: P) -> Self {
-        self.packages.push(package.as_ref().to_string());
+    pub fn with_package<P: Into<String>>(mut self, package: P) -> Self {
+        self.packages.push(Package::new(package));
         self
     }
 }
@@ -49,10 +48,7 @@ impl Document {
 
     /// Get the `\usepackage` lines of the document as a string.
     pub fn packages(&self) -> String {
-        self.packages
-            .iter()
-            .map(|p| format!("\\usepackage{{{}}}", p))
-            .join("\n")
+        self.packages.iter().map(|p| format!("{}", p)).join("\n")
     }
 
     /// Get the complete preamble of the document as a string.

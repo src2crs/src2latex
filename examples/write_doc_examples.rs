@@ -29,4 +29,10 @@ fn main() {
     Document::srcbook()
         .write_to_file(out_dir.join("srcbook.tex"))
         .unwrap();
+    Document::srcartcl_with_src2listings()
+        .write_to_file(out_dir.join("srcartcl_with_src2listings.tex"))
+        .unwrap();
+    Document::srcartcl_with_src2report()
+        .write_to_file(out_dir.join("srcartcl_with_src2report.tex"))
+        .unwrap();
 }

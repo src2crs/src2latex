@@ -1,15 +1,25 @@
+use itertools::Itertools;
 use std::path::Path;
 
 /// A LaTeX Document.
 pub struct Document {
     class: String,
+    packages: Vec<String>,
 }
 
-/// Constructors and basic access.
+/// Constructors and modifiers.
 impl Document {
     /// Create a new `Document` with the given class.
     pub fn new(cls: String) -> Self {
-        Self { class: cls }
+        Self {
+            class: cls,
+            packages: Vec::new(),
+        }
+    }
+
+    pub fn with_package<P: AsRef<str>>(mut self, package: P) -> Self {
+        self.packages.push(package.as_ref().to_string());
+        self
     }
 }
 
@@ -17,12 +27,12 @@ impl Document {
 impl Document {
     /// Return the source code of the document.
     pub fn to_string(&self) -> String {
-        format!("{}\n\n{}\n", self.preamble(), self.body())
+        [self.preamble(), self.body()].join("\n\n")
     }
 
     /// Write the document to a file.
     pub fn write_to_file<P: AsRef<Path>>(&self, path: P) -> std::io::Result<()> {
-        std::fs::write(path.as_ref(), self.to_string())
+        std::fs::write(path.as_ref(), format!("{}\n", self.to_string()))
     }
 }
 
@@ -33,13 +43,25 @@ impl Document {
         format!("\\documentclass{{{}}}", self.class)
     }
 
+    /// Get the `\usepackage` lines of the document as a string.
+    pub fn packages(&self) -> String {
+        self.packages
+            .iter()
+            .map(|p| format!("\\usepackage{{{}}}", p))
+            .join("\n")
+    }
+
     /// Get the complete preamble of the document as a string.
     pub fn preamble(&self) -> String {
-        format!("{}", self.class())
+        if self.packages.is_empty() {
+            return self.class();
+        }
+
+        [self.class(), self.packages()].join("\n\n")
     }
 
     /// Get the body of the document as a string.
     pub fn body(&self) -> String {
-        "\\begin{document}\n\\end{document}".to_string()
+        ["\\begin{document}", "\\end{document}"].join("\n")
     }
 }

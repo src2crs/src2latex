@@ -1,6 +1,6 @@
 use super::Document;
 
-/// Examples for the `Document` type.
+/// Basic examples for the `Document` type.
 impl Document {
     /// Create a new `Document` with the class `article`.
     pub fn article() -> Self {
@@ -33,6 +33,19 @@ impl Document {
     }
 }
 
+/// Examples with packages for the `Document` type.
+impl Document {
+    /// Create a new `srcartcl` using the `src2listings` package.
+    pub fn srcartcl_with_src2listings() -> Self {
+        Self::srcartcl().with_package("src2listings")
+    }
+
+    /// Create a new `srcartcl` using the `src2report` package.
+    pub fn srcartcl_with_src2report() -> Self {
+        Self::srcartcl().with_package("src2report")
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::Document;
@@ -41,14 +54,24 @@ mod tests {
         ($name:ident) => {
             #[test]
             fn $name() {
-                let doc = Document::$name();
+                // Create a temporary directory and file path.
+                let tempdir = tempfile::tempdir().expect("Failed to create temporary directory.");
+                let tempfile_path = tempdir.path().join(concat!(stringify!($name), ".tex"));
+
+                // Create a new document and write it to the temporary file.
+                Document::$name()
+                    .write_to_file(&tempfile_path)
+                    .expect("Failed to write document to file.");
+
+                // Check that the file contents equal the expected contents.
+                // To this end, use the include_str! macro to get the expected contents
+                // from the file with the same name as the document.
                 assert_eq!(
-                    doc.to_string(),
+                    std::fs::read_to_string(&tempfile_path).unwrap(),
                     include_str!(concat!(stringify!($name), ".tex"))
                 );
             }
         };
-        () => {};
     }
 
     test_doc!(article);
@@ -57,4 +80,6 @@ mod tests {
     test_doc!(srcrprt);
     test_doc!(book);
     test_doc!(srcbook);
+    test_doc!(srcartcl_with_src2listings);
+    test_doc!(srcartcl_with_src2report);
 }

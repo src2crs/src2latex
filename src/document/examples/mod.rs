@@ -32,3 +32,29 @@ impl Document {
         Self::new("book".to_string())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::Document;
+
+    macro_rules! test_doc {
+        ($name:ident) => {
+            #[test]
+            fn $name() {
+                let doc = Document::$name();
+                assert_eq!(
+                    doc.to_string(),
+                    include_str!(concat!(stringify!($name), ".tex"))
+                );
+            }
+        };
+        () => {};
+    }
+
+    test_doc!(article);
+    test_doc!(srcartcl);
+    test_doc!(report);
+    test_doc!(srcrprt);
+    test_doc!(book);
+    test_doc!(srcbook);
+}

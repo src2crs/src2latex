@@ -37,12 +37,25 @@ impl Document {
 impl Document {
     /// Create a new `srcartcl` using the `src2listings` package.
     pub fn srcartcl_with_src2listings() -> Self {
-        Self::srcartcl().with_package("src2listings")
+        Self::srcartcl()
+            .with_package("src2listings")
+            .with_option("lang=go")
     }
 
     /// Create a new `srcartcl` using the `src2report` package.
     pub fn srcartcl_with_src2report() -> Self {
-        Self::srcartcl().with_package("src2report")
+        Self::srcartcl()
+            .with_package("src2report")
+            .with_option("lang=en")
+            .with_option("srclang=go")
+    }
+
+    /// Create a new `srcartcl` using the `src2listings` package.
+    pub fn srcartcl_with_src2report_and_a4paper() -> Self {
+        Self::srcartcl()
+            .with_option("a4paper")
+            .with_package("src2listings")
+            .with_option("lang=go")
     }
 }
 
@@ -82,4 +95,5 @@ mod tests {
     test_doc!(srcbook);
     test_doc!(srcartcl_with_src2listings);
     test_doc!(srcartcl_with_src2report);
+    test_doc!(srcartcl_with_src2report_and_a4paper);
 }

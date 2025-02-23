@@ -35,4 +35,7 @@ fn main() {
     Document::srcartcl_with_src2report()
         .write_to_file(out_dir.join("srcartcl_with_src2report.tex"))
         .unwrap();
+    Document::srcartcl_with_src2report_and_a4paper()
+        .write_to_file(out_dir.join("srcartcl_with_src2report_and_a4paper.tex"))
+        .unwrap();
 }

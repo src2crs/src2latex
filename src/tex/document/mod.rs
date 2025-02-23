@@ -24,6 +24,16 @@ impl Document {
         self.packages.push(Package::new(package));
         self
     }
+
+    /// Adds an option to the document class or the package that was added last.
+    pub fn with_option<O: Into<String>>(mut self, option: O) -> Self {
+        if let Some(pkg) = self.packages.last_mut() {
+            pkg.add_option(option);
+        } else {
+            self.class.add_option(option);
+        }
+        self
+    }
 }
 
 /// Methods for exporting the document.

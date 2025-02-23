@@ -7,9 +7,9 @@ impl Document {
         Self::new("article".to_string())
     }
 
-    /// Create a new `Document` with the class `srcartcl`.
-    pub fn srcartcl() -> Self {
-        Self::new("article".to_string())
+    /// Create a new `Document` with the class `scrartcl`.
+    pub fn scrartcl() -> Self {
+        Self::new("scrartcl".to_string())
     }
 
     /// Create a new `Document` with the class `report`.
@@ -17,9 +17,9 @@ impl Document {
         Self::new("report".to_string())
     }
 
-    /// Create a new `Document` with the class `srcrprt`.
-    pub fn srcrprt() -> Self {
-        Self::new("report".to_string())
+    /// Create a new `Document` with the class `scrrprt`.
+    pub fn scrrprt() -> Self {
+        Self::new("scrrprt".to_string())
     }
 
     /// Create a new `Document` with the class `book`.
@@ -27,32 +27,32 @@ impl Document {
         Self::new("book".to_string())
     }
 
-    /// Create a new `Document` with the class `srcbook`.
-    pub fn srcbook() -> Self {
-        Self::new("book".to_string())
+    /// Create a new `Document` with the class `scrbook`.
+    pub fn scrbook() -> Self {
+        Self::new("scrbook".to_string())
     }
 }
 
 /// Examples with packages for the `Document` type.
 impl Document {
-    /// Create a new `srcartcl` using the `src2listings` package.
-    pub fn srcartcl_with_src2listings() -> Self {
-        Self::srcartcl()
+    /// Create a new `scrartcl` using the `src2listings` package.
+    pub fn scrartcl_with_src2listings() -> Self {
+        Self::scrartcl()
             .with_package("src2listings")
             .with_option("lang=go")
     }
 
-    /// Create a new `srcartcl` using the `src2report` package.
-    pub fn srcartcl_with_src2report() -> Self {
-        Self::srcartcl()
+    /// Create a new `scrartcl` using the `src2report` package.
+    pub fn scrartcl_with_src2report() -> Self {
+        Self::scrartcl()
             .with_package("src2report")
             .with_option("lang=en")
             .with_option("srclang=go")
     }
 
-    /// Create a new `srcartcl` using the `src2listings` package.
-    pub fn srcartcl_with_src2report_and_a4paper() -> Self {
-        Self::srcartcl()
+    /// Create a new `scrartcl` using the `src2listings` package.
+    pub fn scrartcl_with_src2report_and_a4paper() -> Self {
+        Self::scrartcl()
             .with_option("a4paper")
             .with_package("src2listings")
             .with_option("lang=go")
@@ -88,12 +88,12 @@ mod tests {
     }
 
     test_doc!(article);
-    test_doc!(srcartcl);
+    test_doc!(scrartcl);
     test_doc!(report);
-    test_doc!(srcrprt);
+    test_doc!(scrrprt);
     test_doc!(book);
-    test_doc!(srcbook);
-    test_doc!(srcartcl_with_src2listings);
-    test_doc!(srcartcl_with_src2report);
-    test_doc!(srcartcl_with_src2report_and_a4paper);
+    test_doc!(scrbook);
+    test_doc!(scrartcl_with_src2listings);
+    test_doc!(scrartcl_with_src2report);
+    test_doc!(scrartcl_with_src2report_and_a4paper);
 }

@@ -3,9 +3,11 @@ mod examples;
 use itertools::Itertools;
 use std::path::Path;
 
+use super::class::DocumentClass;
+
 /// A LaTeX Document.
 pub struct Document {
-    class: String,
+    class: DocumentClass,
     packages: Vec<String>,
 }
 
@@ -14,7 +16,7 @@ impl Document {
     /// Create a new `Document` with the given class.
     pub fn new(cls: String) -> Self {
         Self {
-            class: cls,
+            class: DocumentClass::new(cls),
             packages: Vec::new(),
         }
     }
@@ -42,7 +44,7 @@ impl Document {
 impl Document {
     /// Get the `\documentclass` line of the document.
     pub fn class(&self) -> String {
-        format!("\\documentclass{{{}}}", self.class)
+        format!("{}", self.class)
     }
 
     /// Get the `\usepackage` lines of the document as a string.

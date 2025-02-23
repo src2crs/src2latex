@@ -1,3 +1,5 @@
+mod examples;
+
 use itertools::Itertools;
 use std::path::Path;
 

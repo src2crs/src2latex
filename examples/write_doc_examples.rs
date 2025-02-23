@@ -1,4 +1,4 @@
-use src2latex::document::Document;
+use src2latex::tex::Document;
 
 fn main() {
     // Path to the output directory.
